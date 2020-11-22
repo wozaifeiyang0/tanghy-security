@@ -1,4 +1,4 @@
-package site.tanghy.security.util;
+package space.tanghy.security.util;
 
 /**
  *  秘钥对象，包含两个属性，公钥字符串和私钥字符串

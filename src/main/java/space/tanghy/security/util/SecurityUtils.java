@@ -1,4 +1,4 @@
-package site.tanghy.security.util;
+package space.tanghy.security.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -33,8 +33,8 @@ public class SecurityUtils {
     /**
      * 生成秘钥对象方法，默认生成
      * @return 生产秘钥对象
-     * @throws NoSuchAlgorithmException
-     * @throws IOException
+     * @throws NoSuchAlgorithmException 生成钥匙异常
+     * @throws IOException io异常
      */
     public static Tkey generatorKey() throws NoSuchAlgorithmException, IOException{
         return generatorKey(false);
@@ -43,10 +43,10 @@ public class SecurityUtils {
 
     /**
      * 生成秘钥对象方法，默认生成
-     * @param create
+     * @param create 是否生成新的钥匙
      * @return 生产秘钥对象
-     * @throws NoSuchAlgorithmException
-     * @throws IOException
+     * @throws NoSuchAlgorithmException 生成钥匙异常
+     * @throws IOException io异常
      */
     public static Tkey generatorKey(boolean create) throws NoSuchAlgorithmException, IOException{
         return generatorKey("", create);
@@ -54,11 +54,11 @@ public class SecurityUtils {
 
 
     /**
-     * @param keyPath
-     * @param create
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws IOException
+     * @param keyPath 钥匙存储路径
+     * @param create 是否生成新的钥匙
+     * @return 返回钥匙对象
+     * @throws NoSuchAlgorithmException 生成钥匙异常
+     * @throws IOException io异常
      */
     public static Tkey generatorKey(String keyPath, boolean create) throws NoSuchAlgorithmException, IOException {
 

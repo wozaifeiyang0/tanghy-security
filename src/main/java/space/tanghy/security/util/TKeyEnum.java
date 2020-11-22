@@ -1,4 +1,4 @@
-package site.tanghy.security.util;
+package space.tanghy.security.util;
 
 public enum TKeyEnum {
 
