@@ -13,9 +13,8 @@ import java.security.spec.X509EncodedKeySpec;
 
 public class SecurityUtilsTest {
 
-
     @Test
-    public void rasTest() {
+    public void privateTest() {
         try {
             // 1.初始化发送方密钥
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -47,6 +46,25 @@ public class SecurityUtilsTest {
             result = cipher.doFinal(Base64.decodeBase64(s2));
             System.out.println("私钥加密、公钥解密 ---- 解密:" + new String(result));
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void publicEncrypt() {
+
+        try{
+            // 1.初始化发送方密钥
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(512);
+            KeyPair keyPair = keyPairGenerator.generateKeyPair();
+            RSAPublicKey rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+            RSAPrivateKey rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+            String s = Base64.encodeBase64String(rsaPublicKey.getEncoded());
+            String s1 = Base64.encodeBase64String(rsaPrivateKey.getEncoded());
+            System.out.println("Public Key:" + s);
+            System.out.println("Private Key:" + s1);
 
 
             // 4.公钥加密、私钥解密 ---- 加密

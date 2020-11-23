@@ -6,13 +6,19 @@
 
     <groupId>space.tanghy</groupId>
     <artifactId>tanghy-security</artifactId>
-    <version>1.0</version>
+    <version>1.6</version>
+
+    <!--  发布代码三要素，必不可少  -->
+    <name>tanghy-security</name>
+    <description>tanghy-security is rsa tools.</description>
+    <url>https://github.com/wozaifeiyang0/tanghy-security</url>
 
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!--  代码使用证书  -->
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -20,12 +26,16 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <!--  源代码配置  -->
     <scm>
         <tag>master</tag>
         <url>git@github.com:wozaifeiyang0/tanghy-security.git</url>
         <connection>scm:git:git@github.com:wozaifeiyang0/tanghy-security.git</connection>
         <developerConnection>scm:git:git@github.com:wozaifeiyang0/tanghy-security.git</developerConnection>
     </scm>
+
+    <!--  开发账户信息  -->
     <developers>
         <developer>
             <name>wozaifeiyang0</name>
@@ -33,17 +43,6 @@
             <organization>Tanghy</organization>
         </developer>
     </developers>
-
-    <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -76,7 +75,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.0</version>
+                        <version>3.8.1</version>
                         <configuration>
                             <source>1.8</source>
                             <target>1.8</target>
@@ -92,6 +91,19 @@
             <build>
                 <plugins>
                     <!-- 源码编译插件 -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <!-- Javadoc -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -113,6 +125,7 @@
                         <version>1.6</version>
                         <executions>
                             <execution>
+                                <id>sign-artifacts</id>
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>sign</goal>
@@ -135,11 +148,23 @@
                         </configuration>
                     </plugin>
                     <!--Release-->
-<!--                    <plugin>-->
-<!--                        <groupId>org.apache.maven.plugins</groupId>-->
-<!--                        <artifactId>maven-release-plugin</artifactId>-->
-<!--                        <version>2.5.3</version>-->
-<!--                    </plugin>-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.5.3</version>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>tanghy</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
                 </plugins>
             </build>
 
