@@ -6,7 +6,7 @@
 
     <groupId>space.tanghy</groupId>
     <artifactId>tanghy-security</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.8.0</version>
 
     <!--  发布代码三要素，必不可少  -->
     <name>tanghy-security</name>

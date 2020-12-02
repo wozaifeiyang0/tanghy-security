@@ -20,8 +20,8 @@ public class CaesarUtils {
      * @param mw 需要加密的字符串
      * @return 返回加密的字符串
      */
-    public static String encrypt(String mw) {
-        String result = handler(mw, caesarDictionary, caesarComparison);
+    public static String encrypt(String mw, int offset) throws Exception {
+        String result = handler(mw, offset,caesarDictionary, caesarComparison, false);
         return result;
     }
 
@@ -30,19 +30,45 @@ public class CaesarUtils {
      * @param mw 加密后的字符串
      * @return 返回解密后的字符串
      */
-    public static String decrypt(String mw) {
-        String result = handler(mw,caesarComparison,caesarDictionary);
+    public static String decrypt(String mw, int offset) throws Exception {
+        String result = handler(mw,offset,caesarComparison,caesarDictionary, true);
+        return result;
+    }
+
+    /**
+     * 加密方法
+     * @param mw 需要加密的字符串
+     * @return 返回加密的字符串
+     */
+    public static String encrypt(String mw) throws Exception {
+        String result = handler(mw, 0,caesarDictionary, caesarComparison, false);
+        return result;
+    }
+
+    /**
+     * 解密方法
+     * @param mw 加密后的字符串
+     * @return 返回解密后的字符串
+     */
+    public static String decrypt(String mw) throws Exception {
+        String result = handler(mw,0,caesarComparison,caesarDictionary, true);
         return result;
     }
 
     /**
      *  通用处理方法
      * @param mw 加密或解密的字符串
-     * @param caesarDictionary 明文字符串字典表
+     * @param offset 偏移量，数值要大于0
+     * @param caesarDictionary 明文字符串对应表
      * @param caesarComparison 密文字符串对应表
+     * @param isDecrypt 为true时加密，false时解密
      * @return 返回加密或者解密后的字符串
      */
-    private static String handler(String mw, char[] caesarDictionary, char[] caesarComparison) {
+    private static String handler(String mw, int offset, char[] caesarDictionary, char[] caesarComparison, boolean isDecrypt) throws Exception {
+
+        if (offset < 0) {
+            throw new Exception("偏移量只能为正数");
+        }
 
         String result = "";
         for (char m : mw.toCharArray()) {
@@ -50,7 +76,24 @@ public class CaesarUtils {
             for (int i = 0; i < caesarComparison.length; i++) {
 
                 if (m == caesarComparison[i]) {
-                    jm += caesarDictionary[i];
+                    int offsetIndex = offset % caesarComparison.length;
+
+                    if (!isDecrypt) {
+                        if (offsetIndex + i >= caesarComparison.length) {
+                            jm += caesarDictionary[offsetIndex + i - caesarComparison.length];
+                        } else {
+                            jm += caesarDictionary[i + offsetIndex];
+                        }
+                    } else {
+
+                        if (i - offsetIndex < 0) {
+                            jm += caesarDictionary[i - offsetIndex + caesarComparison.length];
+                        } else {
+                            jm += caesarDictionary[i - offsetIndex];
+                        }
+
+                    }
+
                 }
             }
             if (jm.equals("")) {
