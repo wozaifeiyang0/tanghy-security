@@ -1,5 +1,11 @@
 package space.tanghy.security.util;
 
+
+/**
+ *  author tanghy
+ *  time 2020-12-03
+ *  <p>凯撒加密，解密工具，内置明文字典表和密文字典表</p>
+ */
 public class CaesarUtils {
 
 
@@ -18,21 +24,21 @@ public class CaesarUtils {
     /**
      * 加密方法
      * @param mw 需要加密的字符串
+     * @param offset 偏移量
      * @return 返回加密的字符串
      */
     public static String encrypt(String mw, int offset) throws Exception {
-        String result = handler(mw, offset,caesarDictionary, caesarComparison, false);
-        return result;
+        return handler(mw, offset,caesarDictionary, caesarComparison, false);
     }
 
     /**
      * 解密方法
      * @param mw 加密后的字符串
+     * @param offset 偏移量
      * @return 返回解密后的字符串
      */
     public static String decrypt(String mw, int offset) throws Exception {
-        String result = handler(mw,offset,caesarComparison,caesarDictionary, true);
-        return result;
+        return handler(mw,offset,caesarComparison,caesarDictionary, true);
     }
 
     /**
@@ -41,8 +47,7 @@ public class CaesarUtils {
      * @return 返回加密的字符串
      */
     public static String encrypt(String mw) throws Exception {
-        String result = handler(mw, 0,caesarDictionary, caesarComparison, false);
-        return result;
+        return handler(mw, 0,caesarDictionary, caesarComparison, false);
     }
 
     /**
@@ -51,8 +56,7 @@ public class CaesarUtils {
      * @return 返回解密后的字符串
      */
     public static String decrypt(String mw) throws Exception {
-        String result = handler(mw,0,caesarComparison,caesarDictionary, true);
-        return result;
+        return handler(mw,0,caesarComparison,caesarDictionary, true);
     }
 
     /**
@@ -66,13 +70,10 @@ public class CaesarUtils {
      */
     private static String handler(String mw, int offset, char[] caesarDictionary, char[] caesarComparison, boolean isDecrypt) throws Exception {
 
-        if (offset < 0) {
-            throw new Exception("偏移量只能为正数");
-        }
 
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (char m : mw.toCharArray()) {
-            String jm = "";
+            StringBuilder jm = new StringBuilder();
             for (int i = 0; i < caesarComparison.length; i++) {
 
                 if (m == caesarComparison[i]) {
@@ -80,30 +81,32 @@ public class CaesarUtils {
 
                     if (!isDecrypt) {
                         if (offsetIndex + i >= caesarComparison.length) {
-                            jm += caesarDictionary[offsetIndex + i - caesarComparison.length];
+                            jm.append(caesarDictionary[offsetIndex + i - caesarComparison.length]);
+                        } else if (offsetIndex + i < 0){
+                            jm.append(caesarDictionary[i + offsetIndex + caesarComparison.length]);
                         } else {
-                            jm += caesarDictionary[i + offsetIndex];
+                            jm.append(caesarDictionary[i + offsetIndex]);
                         }
                     } else {
 
                         if (i - offsetIndex < 0) {
-                            jm += caesarDictionary[i - offsetIndex + caesarComparison.length];
+                            jm.append(caesarDictionary[i - offsetIndex + caesarComparison.length]);
+                        } else if (i - offsetIndex >= caesarComparison.length){
+                            jm.append(caesarDictionary[i - offsetIndex - caesarComparison.length]);
                         } else {
-                            jm += caesarDictionary[i - offsetIndex];
+                            jm.append(caesarDictionary[i - offsetIndex]);
                         }
-
                     }
-
                 }
             }
-            if (jm.equals("")) {
-                result += m;
+            if (jm.toString().equals("")) {
+                result.append(m);
             } else {
-                result += jm;
+                result.append(jm);
             }
 
         }
-        return result;
+        return result.toString();
 
     }
 }

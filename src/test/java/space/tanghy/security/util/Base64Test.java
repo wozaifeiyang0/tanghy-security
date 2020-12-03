@@ -9,15 +9,15 @@ public class Base64Test {
     @Test
     public void aaaTest() throws Exception {
 
-
-        String bb = null;
-
-//        boolean empty = bb.isEmpty();
-
-//        char c = lowercase1[-1];
-
-        int aab = 5%10;
         String aa = "1-23-12-as/d-af";
+
+        for (int i = -100; i < 0 ; i++ ) {
+
+            String decrypt = CaesarUtils.decrypt(aa,i);
+            System.out.println(decrypt);
+            String encryption = CaesarUtils.encrypt(decrypt, i);
+            System.out.println(encryption);
+        }
 
         for (int i = 0; i < 100 ; i++ ) {
 
@@ -26,11 +26,6 @@ public class Base64Test {
             String encryption = CaesarUtils.encrypt(decrypt, i);
             System.out.println(encryption);
         }
-
-//        decrypt = CaesarUtils.encrypt(aa, 4);
-//        System.out.println(decrypt);
-//        encryption = CaesarUtils.decrypt(decrypt, 4);
-//        System.out.println(encryption);
 
 
     }
